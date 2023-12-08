@@ -1,0 +1,27 @@
+name: Rust serverless CI
+
+on:
+  create:
+    tags:
+      - v*
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Specifies the runner environment
+
+    steps:
+    - uses: actions/checkout@v2  # Checks out your repository under $GITHUB_WORKSPACE
+
+    - name: Install Rust  # Step to install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal  # Minimal installation
+        toolchain: stable  # Specify Rust toolchain, e.g., stable, nightly, or a specific version
+        override: true  # Set as the default toolchain
+
+    - name: Build
+      run: cargo build --verbose  # Command to build the project
+
+    - name: Run tests
+      run: cargo test --verbose  # Command to run tests
